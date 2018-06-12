@@ -1,0 +1,10 @@
+terraform {
+  backend "s3" {
+    encrypt = true
+    bucket = "{{ item_ans_tf_services.terraform_s3_state_bucket }}"
+    key = "{{ item_ans_tf_services.terraform_aws_state_key }}"
+    region = "{{ item_ans_tf_services.terraform_state_aws_region }}"
+    profile = "{{ item_ans_tf_services.aws_provider_profile }}"
+    dynamodb_table = "{{ item_ans_tf_services.terraform_dynamodb_locktable_name }}"
+  }
+}

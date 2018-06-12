@@ -1,0 +1,27 @@
+module "vpc" {
+  source  = "{{ item_ans_tf_services.aws_vpc_module_source }}"
+  version = "{{ item_ans_tf_services.aws_vpc_module_version }}"
+
+  name = "{{ item_ans_tf_services.aws_vpc_name }}"
+
+  cidr = "{{ item_ans_tf_services.aws_vpc_cidr }}"
+
+  azs                 = [{{ item_ans_tf_services.aws_vpc_azs }}]
+  private_subnets     = [{{ item_ans_tf_services.aws_vpc_private_subnets }}]
+  public_subnets      = [{{ item_ans_tf_services.aws_vpc_public_subnets }}]
+
+  create_database_subnet_group = "{{ item_ans_tf_services.aws_vpc_create_database_subnet_group }}"
+
+  enable_nat_gateway 		= "{{ item_ans_tf_services.aws_vpc_enable_nat_gateway }}"
+  enable_vpn_gateway 		= "{{ item_ans_tf_services.aws_vpc_enable_vpn_gateway }}"
+
+  enable_s3_endpoint 		= "{{ item_ans_tf_services.aws_vpc_enable_s3_endpoint }}"
+  enable_dynamodb_endpoint 	= "{{ item_ans_tf_services.aws_vpc_enable_dynamodb_endpoint }}"
+
+  enable_dhcp_options 		= "{{ item_ans_tf_services.aws_vpc_enable_dhcp_options }}"
+
+  tags = {
+    Owner       = "{{ ans_aws_tag_owner }}"
+    Environment = "{{ ans_aws_tag_environment }}"
+  }
+}

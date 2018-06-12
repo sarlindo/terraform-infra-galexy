@@ -1,0 +1,31 @@
+image:
+  name: sarlindo/terraform-ansible-docker-image
+
+before_script:
+  - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile default
+  - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY --profile default
+  - aws configure set region $AWS_REGION --profile default
+  - aws configure set format text --profile default
+  - terraform --version
+  - ansible --version
+
+stages:
+  - validate-plan-deploy
+
+deploy_staging:
+  stage: validate-plan-deploy
+  script:
+    - pushd .
+    - cd ansible
+    - chmod +x scripts/*
+    - ./scripts/deploy_infra_services.sh
+    - popd
+  artifacts:
+    name: plan
+    paths:
+      - $CI_PROJECT_DIR/terraform-live/*/plan*
+  when: on_success
+  environment:
+    name: staging
+  only:
+    - master

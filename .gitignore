@@ -1,0 +1,10 @@
+#  Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# don't upload terraform files generated from templates because these can be regenerated and they may contain sensitive data
+*.tf
+plan_*.out

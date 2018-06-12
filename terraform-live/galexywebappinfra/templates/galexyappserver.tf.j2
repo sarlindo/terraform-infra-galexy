@@ -1,0 +1,34 @@
+module "ec2-instance" {
+  source  = "{{ item_ans_tf_services.aws_ec2_appserver_module_source }}"
+  version = "{{ item_ans_tf_services.aws_ec2_appserver_module_version }}"
+
+  name                        = "{{ans_environment}}-{{ans_app_name}}-appserver"
+  ami                         = "${data.aws_ami.amazon_linux.id}"
+  key_name                    = "{{ item_ans_tf_services.aws_ec2_appserver_key_name }}"
+  instance_type               = "{{ item_ans_tf_services.aws_ec2_appserver_instance_type }}"
+  subnet_id                   = "${element(module.vpc.public_subnets,0)}"
+  vpc_security_group_ids      = ["${module.security-group-app.this_security_group_id}"]
+  user_data                   = <<-EOF
+»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»#!/bin/bash
+»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»yum install -y nginx
+»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»service nginx start
+»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»EOF
+
+  ebs_block_device = [
+    {
+      device_name           = "{{ item_ans_tf_services.aws_ec2_appserver_ebs_block_device_name }}"
+      volume_type           = "{{ item_ans_tf_services.aws_ec2_appserver_ebs_block_volume_type }}"
+      volume_size           = "{{ item_ans_tf_services.aws_ec2_appserver_ebs_block_volume_size }}"
+      delete_on_termination = "{{ item_ans_tf_services.aws_ec2_appserver_ebs_block_delete_on_termination }}"
+    },
+  ]
+
+  root_block_device = [
+    {
+      volume_size           = "{{ item_ans_tf_services.aws_ec2_appserver_ebs_root_volume_size }}"
+      volume_type           = "{{ item_ans_tf_services.aws_ec2_appserver_ebs_root_volume_type }}"
+      delete_on_termination = "{{ item_ans_tf_services.aws_ec2_appserver_ebs_root_delete_on_termination }}"
+    },
+  ]
+
+}
