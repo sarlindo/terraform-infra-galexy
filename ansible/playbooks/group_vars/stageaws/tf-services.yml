@@ -88,6 +88,7 @@ ans_tf_services:
     aws_alb_target_groups_count: "1"
     aws_alb_logging_enabled: false
     aws_alb_target_group_port: 80
+    aws_alb_cert_domain_name: "*.tsxtrust.com"
     # bastion ec2
     aws_ec2_bastion_module_source: "terraform-aws-modules/ec2-instance/aws"
     aws_ec2_bastion_module_version: "1.5.0"

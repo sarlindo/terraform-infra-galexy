@@ -1,5 +1,5 @@
 data "aws_acm_certificate" "cert" {
-  domain   = "*.tsxtrust.com"
+  domain   = "{{ aws_alb_cert_domain_name }}"
   statuses = ["ISSUED"]
 }
 
